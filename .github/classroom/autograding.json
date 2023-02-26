@@ -1,0 +1,224 @@
+{
+  "tests": [
+    {
+      "name": "pair_dataset",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k pair_dataset",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "triplet_dataset",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k triplet_dataset",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "cross_encoder_score_pairs",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k cross_encoder_score_pairs",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "cross_encoder_forward",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k cross_encoder_forward",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "test_dense_encoder_encode_text",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k test_dense_encoder_encode_text",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 7
+    },
+    {
+      "name": "test_dense_encoder_score_pairs",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k test_dense_encoder_score_pairs",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 7
+    },
+    {
+      "name": "test_dense_encoder_forward",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k test_dense_encoder_forward",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 6
+    },
+    {
+      "name": "test_sparse_encoder_encode_text",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k test_sparse_encoder_encode_text",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "test_sparse_encoder_score_pairs",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k test_sparse_encoder_score_pairs",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "test_sparse_encoder_forward",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k test_sparse_encoder_forward",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "sparse_encoder",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k sparse_encoder",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "read_pairs",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k read_pairs",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "read_triplets",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py -k read_triplets",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "test_ce_run_file_1",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_ce_run_file_1",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "test_ce_run_file_2",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_ce_run_file_2",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 5
+    },
+    {
+      "name": "test_ce_run_file_3",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_ce_run_file_3",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "test_dense_run_file_1",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_dense_run_file_1",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "test_dense_run_file_2",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_dense_run_file_2",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 5
+    },
+    {
+      "name": "test_dense_run_file_3",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_dense_run_file_3",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 12
+    },
+    {
+      "name": "test_sparse_run_file_1",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_sparse_run_file_1",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "test_sparse_run_file_2",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_sparse_run_file_2",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 5
+    },
+    {
+      "name": "test_sparse_run_file_3",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py -k test_sparse_run_file_3",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    }
+  ]
+}

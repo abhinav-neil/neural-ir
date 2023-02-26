@@ -1,0 +1,7 @@
+pytest
+torch
+transformers
+tokenizers
+ir_measures
+faiss-cpu
+pyserini
