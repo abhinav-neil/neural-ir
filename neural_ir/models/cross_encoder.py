@@ -31,7 +31,6 @@ class CrossEncoder(nn.Module):
         )
         self.loss = nn.CrossEntropyLoss()
 
-    # TODO: Implement this
     def score_pairs(self, pairs):
         """
         Calculating scores for a batch of (query, doc) pairs
@@ -45,10 +44,13 @@ class CrossEncoder(nn.Module):
         torch.Tensor: 
             a vector whose each element is the score (based on the CLS vector) of a (query, document) pair
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        with torch.no_grad():
+            outputs = self.model(**pairs, return_dict=True)
+        logits = outputs.logits
+        scores = logits[:, 1]
 
-    # TODO: Implement this
+        return scores
+
     def forward(self, pos_pairs, neg_pairs):
         """
         To train the Cross-Encoder, we can optimize the model with a (binary) cross-entropy loss. As we are using a contrastive loss, the model's predictions are the scores for both the positive pairs and the negative pairs. For a given pair of (query, positive document) and (query, negative document), the model should "choose" the positive document. This can be done by setting the target label as the one matching the index of the positive document.
@@ -64,8 +66,15 @@ class CrossEncoder(nn.Module):
         (query, positive document) pairs and the estimated score of (query, negative document) pairs.
         The goal is to optimize for the loss
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        pos_scores = self.score_pairs(pos_pairs)
+        neg_scores = self.score_pairs(neg_pairs)
+        pos_labels = torch.ones(pos_scores.size())
+        neg_labels = torch.zeros(neg_scores.size())
+        scores = torch.cat([pos_scores, neg_scores], dim=0)
+        labels = torch.cat([pos_labels, neg_labels], dim=0)
+        loss = self.loss(scores, labels)
+
+        return loss, pos_scores, neg_scores
 
     def save_pretrained(self, model_dir, state_dict=None):
         """
