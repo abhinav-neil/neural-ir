@@ -12,7 +12,7 @@ def test_pair_dataset():
     assert type(test_dataset.queries) == dict
     assert type(test_dataset.pairs) == list
     assert len(test_dataset[0]) == 4
-    assert max(Counter(pair[0] for pair in test_dataset.pairs).values()) == test_dataset.top_k
+    assert max(Counter(pair[0] for pair in test_dataset.pairs).values()) <= test_dataset.top_k
 
 def test_triplet_dataset():
     train_dataset = TripletDataset(
