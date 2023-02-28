@@ -29,7 +29,6 @@ class DenseBiEncoder(nn.Module):
         self.model = AutoModel.from_pretrained(model_name_or_dir)
         self.loss = nn.CrossEntropyLoss()
 
-    # TODO: Implement this method
     def encode(self, input_ids, attention_mask, **kwargs):
         """
         Encode a batch of text inputs to a batch of dense vectors
@@ -84,7 +83,6 @@ class DenseBiEncoder(nn.Module):
 
         return scores
 
-    # TODO: Implement this method
     def forward(self, queries, pos_docs, neg_docs):
         """
         Forward method used during training
