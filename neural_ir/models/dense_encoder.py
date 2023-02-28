@@ -49,10 +49,18 @@ class DenseBiEncoder(nn.Module):
             dense vectors are the mean of the last layer's embeddings of
             all tokens in the sequence except for the padded tokens.
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        outputs = self.model(input_ids, attention_mask=attention_mask, **kwargs)
+        last_hidden_state = outputs.last_hidden_state
+        # mask padding tokens
+        mask = attention_mask.unsqueeze(-1).expand(last_hidden_state.size())
+        last_hidden_state = last_hidden_state.masked_fill(mask == 0, 0.0)
+        # avg over hidden states to get document representation
+        sum_last_hidden_state = torch.sum(last_hidden_state, dim=1)
+        sum_attention_mask = torch.clamp(torch.sum(attention_mask, dim=1), min=1e-9)
+        mean_last_hidden_state = sum_last_hidden_state / sum_attention_mask.unsqueeze(-1)
 
-    # TODO: Implement this method
+        return mean_last_hidden_state
+
     def score_pairs(self, queries, docs):
         """
         Calculating the scores of query, document pairs. scores[i] = score(queries[i], docs[i])
@@ -69,8 +77,12 @@ class DenseBiEncoder(nn.Module):
         torch.Tensor:
             a scores vector where scores[i] = dot(q_vectors[i], d_vectors[i])
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        q_vectors = self.encode(queries.input_ids, queries.attention_mask)
+        d_vectors = self.encode(docs.input_ids, docs.attention_mask)
+        # calculate the dot product of each query-document pair
+        scores = torch.bmm(q_vectors.unsqueeze(1), d_vectors.unsqueeze(2)).squeeze()
+
+        return scores
 
     # TODO: Implement this method
     def forward(self, queries, pos_docs, neg_docs):
@@ -92,8 +104,11 @@ class DenseBiEncoder(nn.Module):
         (query, positive document) pairs and the estimated score of (query, negative document) pairs.
         The loss should pull the positive document closer to the query and push the negative document away.
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        pos_scores = self.score_pairs(queries, pos_docs)
+        neg_scores = self.score_pairs(queries, neg_docs)
+        loss = self.loss(torch.cat((pos_scores, neg_scores), dim=0), torch.cat((torch.ones_like(pos_scores), torch.zeros_like(neg_scores)), dim=0))
+        
+        return loss, pos_scores, neg_scores
 
     def save_pretrained(self, model_dir, state_dict=None):
         """
