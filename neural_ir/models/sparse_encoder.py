@@ -139,7 +139,7 @@ class SparseBiEncoder(nn.Module):
         q_vectors = self.encode(queries['input_ids'], queries['attention_mask'])
         d_vectors = self.encode(docs['input_ids'], docs['attention_mask'])
         # calculate scores
-        scores = torch.bmm(q_vectors.unsqueeze(1), d_vectors.unsqueeze(2)).squeeze()
+        scores = torch.bmm(q_vectors.unsqueeze(1), d_vectors.unsqueeze(2)).flatten()
         if return_regularizer:
             # calculate regularizers
             q_reg = self.q_regularizer(q_vectors)
