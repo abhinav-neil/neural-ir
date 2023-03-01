@@ -21,7 +21,6 @@ class TripletDataset(Dataset):
     HINT: - make sure to implement and use the functions defined in utils/dataset_utils.py
     """
 
-    # TODO: implement this method
     def __init__(
         self, collection_path: str, queries_path: str, train_triplets_path: str
     ):
@@ -36,18 +35,26 @@ class TripletDataset(Dataset):
         train_triplets_path: str
             path to a tsv file,  each line has a query id, positive id and negative id separated by a tab character
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        self.collection = {}
+        with open(collection_path, "r") as f:
+            for line in f:
+                id_, text = line.rstrip("\n").split("\t")
+                self.collection[id_] = text
 
-    # TODO: implement this method
+        self.queries = {}
+        with open(queries_path, "r") as f:
+            for line in f:
+                id_, text = line.rstrip("\n").split("\t")
+                self.queries[id_] = text
+
+        self.triplets = read_triplets(train_triplets_path)
+
     def __len__(self):
         """
         Return the number of triplets
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        return len(self.triplets)
 
-    # TODO: implement this method
     def __getitem__(self, idx):
         """
         Get text contents of the idx-th triplet. 
@@ -59,6 +66,8 @@ class TripletDataset(Dataset):
         tuple:
             (query_text, pos_text, neg_text) 
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
-
+        qid, pid, nid = self.triplets[idx]
+        q_text = self.queries[qid]
+        p_text = self.collection[pid]
+        n_text = self.collection[nid]
+        return q_text, p_text, n_text

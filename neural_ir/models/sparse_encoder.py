@@ -19,7 +19,6 @@ class L1Regularizer(nn.Module):
         self.current_step = 0
         self.current_alpha = 0
 
-    # TODO: implement this
     def forward(self, reps):
         """
         Calculate L1 for an input tensor then perform a warming up step for the regularization weight
@@ -33,9 +32,14 @@ class L1Regularizer(nn.Module):
             The result of L1 applied in the input tensor. 
             L1(reps) = current_alpha * mean(L1(reps_i)) where reps_i is the i-th row of the input
         """
-        # BEGIN SOLUTION
-        #
-        # END SOLUTION
+        # calculate L1 for each row
+        l1 = reps.abs().mean(dim=-1)
+        # calculate mean L1 and apply regularization weight
+        l1 = self.current_alpha * l1.mean()
+        # increment current step
+        self.step()
+
+        return l1
 
     def step(self):
         """
@@ -79,8 +83,6 @@ class SparseBiEncoder(nn.Module):
         self.q_regularizer = L1Regularizer(alpha=q_alpha, T=T)
         self.d_regularizer = L1Regularizer(alpha=d_alpha, T=T)
 
-    # TODO: implement this method
-    def encode(self, input_ids, attention_mask, **kwargs):
         """
         For the Sparse Bi-Encoder, we encode a query/document into a |V|-dimensional vector, where |V| is the size of the vocabulary. 
         Parameters
@@ -102,11 +104,18 @@ class SparseBiEncoder(nn.Module):
             2. Apply relu and (natural) log transformation: log(1 + relu(logits))
             3. Return the value of max pooling over the second dimension
         """
-        # BEGIN SOLUTION
+        with torch.no_grad():
+            outputs = self.model(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
+            # zero-out logits of all padded tokens
+            logits = outputs.logits
+            logits[~attention_mask.bool()] = float('-inf')
+            # apply relu and log transform
+            encoded = torch.log(1 + nn.functional.relu(logits))
+            # max pool over the second dimension
+            encoded = torch.max(encoded, dim=1)[0]
 
-        # END SOLUTION
+            return encoded
 
-    # TODO: implement this method
     def score_pairs(self, queries, docs, return_regularizer=False):
         """
         Retrun scores for pairs of <query, document>
@@ -126,11 +135,19 @@ class SparseBiEncoder(nn.Module):
         else:
             return scores, where scores[i] = dot(q_vectors[i], d_vectors[i])
         """
-        # BEGIN SOLUTION
+        # encode queries and docs
+        q_vectors = self.encode(queries['input_ids'], queries['attention_mask'])
+        d_vectors = self.encode(docs['input_ids'], docs['attention_mask'])
+        # calculate scores
+        scores = torch.bmm(q_vectors.unsqueeze(1), d_vectors.unsqueeze(2)).flatten()
+        if return_regularizer:
+            # calculate regularizers
+            q_reg = self.q_regularizer(q_vectors)
+            d_reg = self.d_regularizer(d_vectors)
+            return scores, q_reg, d_reg
+        else:
+            return scores
 
-        # END SOLUTION
-
-    # TODO: implement this method
     def forward(self, queries, pos_docs, neg_docs):
         """
         Given a batch of triplets,  return the loss for training. 
@@ -151,9 +168,24 @@ class SparseBiEncoder(nn.Module):
         The loss must include the regularization as follows:
         loss = entropy_loss + query_regularization + (positive_regularization + negative_regularization)/2
         """
-        # BEGIN SOLUTION
 
-        # END SOLUTION
+        # calculate scores
+        pos_scores, q_reg, pos_d_reg = self.score_pairs(queries, pos_docs, return_regularizer=True)
+        neg_scores, _, neg_d_reg = self.score_pairs(queries, neg_docs, return_regularizer=True)
+
+        # calculate the contrastive loss
+        n = pos_scores.size(0)
+        ones = torch.ones(n, device=pos_scores.device)
+        zeros = torch.zeros(n, device=pos_scores.device)
+        loss = self.loss(pos_scores, ones) + self.loss(neg_scores, zeros)
+
+        # calculate the regularization term
+        reg = q_reg + (pos_d_reg + neg_d_reg) / 2
+
+        # combine the contrastive loss and the regularization term
+        loss += reg
+
+        return loss, pos_scores, neg_scores
 
     def save_pretrained(self, model_name_or_dir, state_dict=None):
         self.model.save_pretrained(model_name_or_dir, state_dict=state_dict)

@@ -1,9 +1,8 @@
 from tqdm import tqdm
 from pathlib import Path
 from torch.utils.data import Dataset
-from neural_ir.utils.dataset_utils import read_pairs
+from neural_ir.utils.dataset_utils import read_pairs, read_triplets
 import json
-from collections import defaultdict
 from ir_measures import read_trec_run
 
 
@@ -31,7 +30,6 @@ class PairDataset(Dataset):
 
     """
 
-    # TODO: implement this method
     def __init__(
         self,
         collection_path: str,
@@ -53,21 +51,41 @@ class PairDataset(Dataset):
         qrels_path: str (optional)
             path to a qrel json file expected be formated as {query_id: {doc_id: relevance, ...}, ...}
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        self.collection = {}
+        with open(collection_path) as f:
+            for line in f:
+                doc_id, text = line.strip().split("\t")
+                self.collection[doc_id] = text
 
-    # TODO: implement this method
+        self.queries = {}
+        with open(queries_path) as f:
+            for line in f:
+                query_id, text = line.strip().split("\t")
+                self.queries[query_id] = text
+
+        self.pairs = []
+        for pair in read_trec_run(query_doc_pair_path):
+            self.pairs.append((pair.query_id, pair.doc_id))
+
+        if qrels_path:
+            with open(qrels_path) as f:
+                self.qrels = json.load(f)
+        else:
+            self.qrels = None
+
+        self.top_k = top_k
+
     def __len__(self):
         """
         Return the number of pairs to re-rank
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        return len(self.pairs)
 
-    # TODO: implement this method
     def __getitem__(self, idx):
         """
         Return the idx-th pair of the dataset in the format of (qid, docid, query_text, doc_text)
         """
-        # BEGIN SOLUTION
-        # END SOLUTION
+        query_id, doc_id = self.pairs[idx]
+        query_text = self.queries[query_id]
+        doc_text = self.collection[doc_id]
+        return query_id, doc_id, query_text, doc_text

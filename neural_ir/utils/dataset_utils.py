@@ -1,7 +1,6 @@
 from pathlib import Path
 from tqdm import tqdm
 
-# TODO: implement this method
 def read_pairs(path: str):
     """
     Read tab-delimited pairs from file.
@@ -13,11 +12,13 @@ def read_pairs(path: str):
     -------
         a list of pair tuple
     """
-    # BEGIN SOLUTION
-    # END SOLUTION
+    pairs = []
+    with open(path, 'r', encoding='utf-8') as f:
+        for line in tqdm(f.readlines(), desc=f'reading pairs from {Path(path).name}'):
+            qid, did = line.strip().split('\t')
+            pairs.append((qid, did))
+    return pairs
 
-
-# TODO: implement this method
 def read_triplets(path: str):
     """
     Read tab-delimited triplets from file.
@@ -29,5 +30,9 @@ def read_triplets(path: str):
     -------
         a list of triplet tuple
     """
-    # BEGIN SOLUTION
-    # END SOLUTION
+    triplets = []
+    with open(path, 'r', encoding='utf-8') as f:
+        for line in tqdm(f.readlines(), desc=f'reading triplets from {Path(path).name}'):
+            qid, pos_id, neg_id = line.strip().split('\t')
+            triplets.append((qid, pos_id, neg_id))
+    return triplets
