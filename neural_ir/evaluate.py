@@ -1,5 +1,4 @@
 import argparse
-from transformers import AutoTokenizer, TrainingArguments
 from neural_ir.dataset import (
     TripletDataset,
     PairDataset,
@@ -13,6 +12,7 @@ from neural_ir.models import CrossEncoder
 from neural_ir.models.dense_encoder import DenseBiEncoder
 from neural_ir.models.sparse_encoder import SparseBiEncoder
 from neural_ir.trainer import HFTrainer
+from transformers import AutoTokenizer, TrainingArguments
 
 parser = argparse.ArgumentParser(description="Training Neural IR models")
 parser.add_argument(
