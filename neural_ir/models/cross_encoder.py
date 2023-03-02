@@ -44,8 +44,8 @@ class CrossEncoder(nn.Module):
         torch.Tensor: 
             a vector whose each element is the score (based on the CLS vector) of a (query, document) pair
         """
-        with torch.no_grad():
-            outputs = self.model(**pairs, return_dict=True)
+        # with torch.no_grad():
+        outputs = self.model(**pairs, return_dict=True)
         logits = outputs.logits
         scores = logits[:, 1]
 
@@ -68,8 +68,8 @@ class CrossEncoder(nn.Module):
         """
         pos_scores = self.score_pairs(pos_pairs)
         neg_scores = self.score_pairs(neg_pairs)
-        pos_labels = torch.ones(pos_scores.size())
-        neg_labels = torch.zeros(neg_scores.size())
+        pos_labels = torch.ones(pos_scores.size(), device=pos_scores.device)
+        neg_labels = torch.zeros(neg_scores.size(), device=neg_scores.device)
         scores = torch.cat([pos_scores, neg_scores], dim=0)
         labels = torch.cat([pos_labels, neg_labels], dim=0)
         loss = self.loss(scores, labels)
