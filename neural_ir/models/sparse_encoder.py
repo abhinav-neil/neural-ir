@@ -83,6 +83,7 @@ class SparseBiEncoder(nn.Module):
         self.q_regularizer = L1Regularizer(alpha=q_alpha, T=T)
         self.d_regularizer = L1Regularizer(alpha=d_alpha, T=T)
 
+    def encode(self, input_ids, attention_mask, **kwargs):
         """
         For the Sparse Bi-Encoder, we encode a query/document into a |V|-dimensional vector, where |V| is the size of the vocabulary. 
         Parameters
@@ -104,17 +105,17 @@ class SparseBiEncoder(nn.Module):
             2. Apply relu and (natural) log transformation: log(1 + relu(logits))
             3. Return the value of max pooling over the second dimension
         """
-        with torch.no_grad():
-            outputs = self.model(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
-            # zero-out logits of all padded tokens
-            logits = outputs.logits
-            logits[~attention_mask.bool()] = float('-inf')
-            # apply relu and log transform
-            encoded = torch.log(1 + nn.functional.relu(logits))
-            # max pool over the second dimension
-            encoded = torch.max(encoded, dim=1)[0]
+        # with torch.no_grad():
+        outputs = self.model(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
+        # zero-out logits of all padded tokens
+        logits = outputs.logits
+        logits[~attention_mask.bool()] = float('-inf')
+        # apply relu and log transform
+        encoded = torch.log(1 + nn.functional.relu(logits))
+        # max pool over the second dimension
+        encoded = torch.max(encoded, dim=1)[0]
 
-            return encoded
+        return encoded
 
     def score_pairs(self, queries, docs, return_regularizer=False):
         """
