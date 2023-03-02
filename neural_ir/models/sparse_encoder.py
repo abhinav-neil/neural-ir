@@ -33,7 +33,7 @@ class L1Regularizer(nn.Module):
             L1(reps) = current_alpha * mean(L1(reps_i)) where reps_i is the i-th row of the input
         """
         # calculate L1 for each row
-        l1 = reps.abs().mean(dim=-1)
+        l1 = reps.abs().sum(dim=-1)
         # calculate mean L1 and apply regularization weight
         l1 = self.current_alpha * l1.mean()
         # increment current step
