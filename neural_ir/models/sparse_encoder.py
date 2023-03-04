@@ -32,10 +32,8 @@ class L1Regularizer(nn.Module):
             The result of L1 applied in the input tensor. 
             L1(reps) = current_alpha * mean(L1(reps_i)) where reps_i is the i-th row of the input
         """
-        # calculate L1 for each row
-        l1 = reps.abs().sum(dim=-1)
         # calculate mean L1 and apply regularization weight
-        l1 = self.current_alpha * l1.mean()
+        l1 = self.current_alpha * torch.abs(reps).sum() / reps.shape[0]
         # increment current step
         self.step()
 
@@ -106,10 +104,10 @@ class SparseBiEncoder(nn.Module):
             3. Return the value of max pooling over the second dimension
         """
         # with torch.no_grad():
-        outputs = self.model(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
+        outputs = self.model(input_ids, attention_mask, **kwargs)
         # zero-out logits of all padded tokens
         logits = outputs.logits
-        logits[~attention_mask.bool()] = float('-inf')
+        logits[~attention_mask.bool()] = 0
         # apply relu and log transform
         encoded = torch.log(1 + nn.functional.relu(logits))
         # max pool over the second dimension
