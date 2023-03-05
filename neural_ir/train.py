@@ -12,6 +12,7 @@ from neural_ir.dataset.triplet_collator import BiEncoderTripletCollator
 from neural_ir.models import CrossEncoder
 from neural_ir.models.dense_encoder import DenseBiEncoder
 from neural_ir.models.sparse_encoder import SparseBiEncoder
+from neural_ir.models.your_creativity import MyDenseBiEncoder
 from neural_ir.trainer import HFTrainer
 
 parser = argparse.ArgumentParser(description="Training Neural IR models")
@@ -135,6 +136,14 @@ elif args.model == "sparse":
     model = SparseBiEncoder(
         args.pretrained, q_alpha=args.q_reg, d_alpha=args.d_reg, T=args.T
     )
+elif args.model == "your_creativity":
+    triplet_collator = BiEncoderTripletCollator(
+        tokenizer, args.query_max_length, args.doc_max_length
+    )
+    pair_collator = BiEncoderPairCollator(
+        tokenizer, args.query_max_length, args.doc_max_length
+    )
+    model = MyDenseBiEncoder(args.pretrained)
 else:
     raise Exception(
         "Invalid selection. Select either {ce, dense, sparse} model for training."
