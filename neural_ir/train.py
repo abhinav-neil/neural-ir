@@ -82,6 +82,16 @@ sparse_parser.add_argument(
 sparse_parser.add_argument(
     "--T", type=int, default=5000, help="Number of warming up steps for regularization"
 )
+######################################################################
+#              Your creativity argument parser                         #
+######################################################################
+dense_parser = sub_parsers.add_parser("your_creativity", help="my custom model")
+dense_parser.add_argument(
+    "--query_max_length", type=int, default=100, help="Maximum query length"
+)
+dense_parser.add_argument(
+    "--doc_max_length", type=int, default=250, help="Maximum document length"
+)
 args = parser.parse_args()
 
 
@@ -146,7 +156,7 @@ elif args.model == "your_creativity":
     model = MyDenseBiEncoder(args.pretrained)
 else:
     raise Exception(
-        "Invalid selection. Select either {ce, dense, sparse} model for training."
+        "Invalid selection. Select either {ce, dense, sparse, your_creativity} model for training."
     )
 
 ######################################################################
