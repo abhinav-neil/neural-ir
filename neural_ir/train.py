@@ -44,6 +44,9 @@ parser.add_argument(
 parser.add_argument(
     "--max_steps", type=int, default=4000, help="Number of training steps"
 )
+parser.add_argument(
+    "--eval_steps", type=int, default=100, help="Number of eval steps"
+)
 parser.add_argument("--lr", type=float, default=5e-5, help="Learning rate for training")
 sub_parsers = parser.add_subparsers(help="Selecting type of models", dest="model")
 ######################################################################
@@ -176,8 +179,8 @@ training_args = TrainingArguments(
     per_device_train_batch_size=args.train_batch_size,
     per_device_eval_batch_size=args.eval_batch_size,
     max_steps=args.max_steps,
-    save_steps=100,
-    eval_steps=100,
+    save_steps=args.eval_steps,
+    eval_steps=args.eval_steps,
     save_total_limit=2,
 )
 ######################################################################
