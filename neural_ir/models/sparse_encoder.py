@@ -173,16 +173,17 @@ class SparseBiEncoder(nn.Module):
         neg_scores, _, neg_d_reg = self.score_pairs(queries, neg_docs, return_regularizer=True)
 
         # calculate the contrastive loss
-        n = pos_scores.size(0)
-        ones = torch.ones(n, device=pos_scores.device)
-        zeros = torch.zeros(n, device=pos_scores.device)
-        loss = self.loss(pos_scores, ones) + self.loss(neg_scores, zeros)
-
+        #n = pos_scores.size(0)
+        # ones = torch.ones(n, device=pos_scores.device)
+        # zeros = torch.zeros(n, device=pos_scores.device)
+        # loss = self.loss(pos_scores, ones) + self.loss(neg_scores, zeros)
+        targets = torch.zeros_like(pos_scores).type(torch.LongTensor).to(pos_scores.device)
+        loss = self.loss(torch.cat((pos_scores.reshape(-1, 1), neg_scores.reshape(-1, 1)), dim=1), targets)
         # calculate the regularization term
-        reg = q_reg + (pos_d_reg + neg_d_reg) / 2
+        loss_reg = q_reg + (pos_d_reg + neg_d_reg) / 2
 
         # combine the contrastive loss and the regularization term
-        loss += reg
+        loss += loss_reg
 
         return loss, pos_scores, neg_scores
 

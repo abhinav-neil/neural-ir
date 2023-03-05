@@ -78,8 +78,8 @@ class MyDenseBiEncoder(nn.Module):
         """
         q_vectors = self.encode(queries.input_ids, queries.attention_mask)
         d_vectors = self.encode(docs.input_ids, docs.attention_mask)
-        # calculate maxsim of each query-document pair
-        scores = torch.max(q_vectors.unsqueeze(1) * d_vectors.unsqueeze(2), dim=-1)[0].flatten()
+        cos = nn.CosineSimilarity(dim=1, eps=1e-6)
+        scores = cos(q_vectors, d_vectors)
         
         return scores
 

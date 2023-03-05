@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 from neural_ir.utils.dataset_utils import read_pairs, read_triplets
 import json
 from ir_measures import read_trec_run
-
+from collections import Counter
 
 class PairDataset(Dataset):
     """
@@ -51,30 +51,45 @@ class PairDataset(Dataset):
         qrels_path: str (optional)
             path to a qrel json file expected be formated as {query_id: {doc_id: relevance, ...}, ...}
         """
-        self.collection = {}
-        with open(collection_path) as f:
-            for line in f:
-                doc_id, text = line.strip().split("\t")
-                self.collection[doc_id] = text
+        # self.collection = {}
+        # with open(collection_path) as f:
+        #     for line in f:
+        #         doc_id, text = line.strip().split("\t")
+        #         self.collection[doc_id] = text
 
-        self.queries = {}
-        with open(queries_path) as f:
-            for line in f:
-                query_id, text = line.strip().split("\t")
-                self.queries[query_id] = text
+        # self.queries = {}
+        # with open(queries_path) as f:
+        #     for line in f:
+        #         query_id, text = line.strip().split("\t")
+        #         self.queries[query_id] = text
 
+        # self.pairs = []
+        # for pair in read_trec_run(query_doc_pair_path):
+        #     self.pairs.append((pair.query_id, pair.doc_id))
+
+        # if qrels_path:
+        #     with open(qrels_path) as f:
+        #         self.qrels = json.load(f)
+        # else:
+        #     self.qrels = None
+
+        # self.top_k = top_k
+
+        self.collection = dict(read_pairs(collection_path))
+        self.queries = dict(read_pairs(queries_path))
+        with open(qrels_path, 'r') as r:
+            self.qrels = json.load(r)
         self.pairs = []
+        query_count = {}
         for pair in read_trec_run(query_doc_pair_path):
-            self.pairs.append((pair.query_id, pair.doc_id))
-
-        if qrels_path:
-            with open(qrels_path) as f:
-                self.qrels = json.load(f)
-        else:
-            self.qrels = None
-
-        self.top_k = top_k
-
+            q, d = pair.query_id, pair.doc_id
+            if q not in query_count:
+                query_count[q] = 1
+            elif query_count[q] < top_k:
+                query_count[q] += 1
+            self.pairs.append((q, d))
+        self.top_k = min([max(Counter(pair[0] for pair in self.pairs).values()), top_k])
+    
     def __len__(self):
         """
         Return the number of pairs to re-rank
