@@ -12,6 +12,7 @@ from neural_ir.dataset.triplet_collator import BiEncoderTripletCollator
 from neural_ir.models import CrossEncoder
 from neural_ir.models.dense_encoder import DenseBiEncoder
 from neural_ir.models.sparse_encoder import SparseBiEncoder
+from neural_ir.models.your_creativity import MyDenseBiEncoder
 from neural_ir.trainer import HFTrainer
 
 parser = argparse.ArgumentParser(description="Training Neural IR models")
@@ -81,6 +82,16 @@ sparse_parser.add_argument(
 sparse_parser.add_argument(
     "--T", type=int, default=5000, help="Number of warming up steps for regularization"
 )
+######################################################################
+#              Your creativity argument parser                         #
+######################################################################
+dense_parser = sub_parsers.add_parser("your_creativity", help="my custom model")
+dense_parser.add_argument(
+    "--query_max_length", type=int, default=100, help="Maximum query length"
+)
+dense_parser.add_argument(
+    "--doc_max_length", type=int, default=250, help="Maximum document length"
+)
 args = parser.parse_args()
 
 
@@ -135,9 +146,17 @@ elif args.model == "sparse":
     model = SparseBiEncoder(
         args.pretrained, q_alpha=args.q_reg, d_alpha=args.d_reg, T=args.T
     )
+elif args.model == "your_creativity":
+    triplet_collator = BiEncoderTripletCollator(
+        tokenizer, args.query_max_length, args.doc_max_length
+    )
+    pair_collator = BiEncoderPairCollator(
+        tokenizer, args.query_max_length, args.doc_max_length
+    )
+    model = MyDenseBiEncoder(args.pretrained)
 else:
     raise Exception(
-        "Invalid selection. Select either {ce, dense, sparse} model for training."
+        "Invalid selection. Select either {ce, dense, sparse, your_creativity} model for training."
     )
 
 ######################################################################
