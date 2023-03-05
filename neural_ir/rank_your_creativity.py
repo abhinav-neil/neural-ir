@@ -21,7 +21,7 @@ parser.add_argument(
 parser.add_argument("--bs", type=int, default=16, help="batch size")
 parser.add_argument(
     "--checkpoint",
-    default="output/dense/model",
+    default="output/your_creativity/model",
     type=str,
     help="path to model checkpoint",
 )
