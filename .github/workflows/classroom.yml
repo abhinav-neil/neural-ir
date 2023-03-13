@@ -13,16 +13,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
+    - name: Checkout secret tests
+      uses: actions/checkout@v2
+      with:
+        repository: UvA-IR1-2023/hidden-tests-assignment1-part2
+        token: ${{ secrets.HiddenTestToken2 }}
+        path: neural_ir/hidden_tests
+
     - uses: actions/setup-python@v4
       with:
           python-version: '3.8'
-          cahce: 'pip'
+          cache: 'pip'
     - name: Install dependencies
       run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-    - name: Test with pytest
-      run: |
-        python -m pytest
     - name: Autograding
       uses: education/autograding@v1
+
+
+
+

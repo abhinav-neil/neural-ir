@@ -1,13 +1,274 @@
 {
   "tests": [
     {
-      "name": "public",
-      "run": "python -m pytest neural_ir/public_tests/",
+      "name": "pair_dataset",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_pair_dataset",
       "input": "",
       "output": "",
       "comparison": "included",
       "timeout": 10,
-      "points": 0
+      "points": 10
+    },
+    {
+      "name": "triplet_dataset",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_triplet_dataset",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "cross_encoder_score_pairs",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_cross_encoder_score_pairs",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "cross_encoder_forward",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_cross_encoder_forward",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "test_dense_encoder_encode_text",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_dense_encoder_encode_text",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 7
+    },
+    {
+      "name": "test_dense_encoder_encode_with_padding",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_dense_encoder_encode_text_with_padding",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 4
+    },
+    {
+      "name": "test_dense_encoder_score_pairs",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_dense_encoder_score_pairs",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 7
+    },
+    {
+      "name": "test_dense_encoder_score_pairs_with_padding",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_dense_encoder_score_pairs_with_padding",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 4
+    },
+    {
+      "name": "test_dense_encoder_forward",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_dense_encoder_forward",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 6
+    },
+    {
+      "name": "test_dense_encoder_forward_with_padding",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_dense_encoder_forward_with_padding",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "test_sparse_encoder_encode_text",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_sparse_encoder_encode_text",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "test_sparse_encoder_score_pairs",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_sparse_encoder_score_pairs",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "test_sparse_encoder_forward",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_sparse_encoder_forward",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "test_sparse_encoder_encode_text_with_padding",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_sparse_encoder_encode_text_with_padding",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 5
+    },
+    {
+      "name": "test_sparse_encoder_score_pairs_with_padding",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_sparse_encoder_score_pairs_with_padding",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 5
+    },
+    {
+      "name": "test_sparse_encoder_forward_with_padding",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_sparse_encoder_forward_with_padding",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 5
+    },
+    {
+      "name": "read_pairs",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_read_pairs",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "read_triplets",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/hidden_tests.py::test_read_triplets",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "test_ce_run_file_1",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_ce_run_file_1",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "test_ce_run_file_2",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_ce_run_file_2",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1.5
+    },
+    {
+      "name": "test_ce_run_file_3",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_ce_run_file_3",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "test_dense_run_file_1",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_dense_run_file_1",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "test_dense_run_file_2",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_dense_run_file_2",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1.5
+    },
+    {
+      "name": "test_dense_run_file_3",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_dense_run_file_3",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "test_sparse_run_file_1",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_sparse_run_file_1",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "test_sparse_run_file_2",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_sparse_run_file_2",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1.5
+    },
+    {
+      "name": "test_sparse_run_file_3",
+      "setup": "",
+      "run": "python -m pytest neural_ir/hidden_tests/run_file_evaluation.py::test_sparse_run_file_3",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
     }
   ]
 }
