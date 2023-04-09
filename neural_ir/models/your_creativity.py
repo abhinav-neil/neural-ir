@@ -32,7 +32,7 @@ class MyDenseBiEncoder(nn.Module):
     def encode(self, input_ids, attention_mask, **kwargs):
         """
         Encode a batch of text inputs to a batch of dense vectors
-        The Dense Bi-Encoder uses the final hidden states as the representation of its input. To do so, an aggregation function is used to reduce the sequence of hidden states to a single vector. This is typically done by taking the mean or the max of the hidden states, or by exclusively using the representation of a special token like [CLS]. For this assignment, we will use the mean of the hidden states, excluding the padding tokens
+        The Dense Bi-Encoder uses the final hidden states as the representation of its input. To do so, an aggregation function is used to reduce the sequence of hidden states to a single vector. This is typically done by taking the mean or the max of the hidden states, or by exclusively using the representation of a special token like [CLS]. For this project, we will use the mean of the hidden states, excluding the padding tokens
         Parameters
         ----------
         input_ids: torch.Tensor
@@ -63,7 +63,7 @@ class MyDenseBiEncoder(nn.Module):
     def score_pairs(self, queries, docs):
         """
         Calculating the scores of query, document pairs. scores[i] = score(queries[i], docs[i])
-        As the queries and documents are encoded separately, the score for a given query-document pair can be defined as either the dot product or the cosine similarity between the two vectors. For this assignment, we will use the dot product.
+        As the queries and documents are encoded separately, the score for a given query-document pair can be defined as either the dot product or the cosine similarity between the two vectors. For this project, we will use the dot product.
         Parameters
         ----------
         queries: dict or transformers.BatchEncoding

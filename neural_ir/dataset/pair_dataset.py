@@ -22,12 +22,6 @@ class PairDataset(Dataset):
     top_k: int
         an integer storing the number of documents to rerank per query
 
-    HINT: - make sure to implement and use the functions defined in utils/dataset_utils.py
-          - check out the documentation of ir_measures at https://ir-measur.es/en/latest/
-          - the read_trec_run method returns a generator that yields the following object:
-            `yield ScoredDoc(query_id=query_id, doc_id=doc_id, score=float(score))`
-            (i.e., you can use pair.query_id and pair.doc_id by iterating through the generator)
-
     """
 
     def __init__(
@@ -51,30 +45,6 @@ class PairDataset(Dataset):
         qrels_path: str (optional)
             path to a qrel json file expected be formated as {query_id: {doc_id: relevance, ...}, ...}
         """
-        # self.collection = {}
-        # with open(collection_path) as f:
-        #     for line in f:
-        #         doc_id, text = line.strip().split("\t")
-        #         self.collection[doc_id] = text
-
-        # self.queries = {}
-        # with open(queries_path) as f:
-        #     for line in f:
-        #         query_id, text = line.strip().split("\t")
-        #         self.queries[query_id] = text
-
-        # self.pairs = []
-        # for pair in read_trec_run(query_doc_pair_path):
-        #     self.pairs.append((pair.query_id, pair.doc_id))
-
-        # if qrels_path:
-        #     with open(qrels_path) as f:
-        #         self.qrels = json.load(f)
-        # else:
-        #     self.qrels = None
-
-        # self.top_k = top_k
-
         self.collection = dict(read_pairs(collection_path))
         self.queries = dict(read_pairs(queries_path))
         with open(qrels_path, 'r') as r:

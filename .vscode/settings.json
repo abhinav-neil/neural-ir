@@ -1,7 +1,0 @@
-{
-    "python.testing.pytestArgs": [
-        "neural_ir"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
-}

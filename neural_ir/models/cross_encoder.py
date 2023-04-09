@@ -44,7 +44,6 @@ class CrossEncoder(nn.Module):
         torch.Tensor: 
             a vector whose each element is the score (based on the CLS vector) of a (query, document) pair
         """
-        # with torch.no_grad():
         outputs = self.model(**pairs, return_dict=True)
         logits = outputs.logits
         scores = logits[:, 1]
